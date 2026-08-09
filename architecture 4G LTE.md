@@ -160,9 +160,13 @@ Le HSS est la base de données centrale et permanente du réseau. Il stocke :
 
 - **Informations d'abonnement :** Droits d'accès, services autorisés (ex: itinérance internationale, accès VoLTE), et paramètres de qualité de service.
 
-- **Données de localisation :** Il sait vers quelle MME chaque abonné est actuellement rattaché.
+- **Données de localisation :** Il sait à quelle MME chaque abonné est actuellement rattaché.
 
 - **Paramètres de sécurité :** Il contient les clés secrètes nécessaires pour l'authentification sécurisée des utilisateurs lors de leur connexion.
+
+> **Pourquoi "*Home*" (dans "Home subscriber server) ?**
+> 
+> Le terme **Home** (*Domicile / Origine*) fait référence au **réseau d'origine de l'abonné** (*Home PLMN*), c'est-à-dire le réseau de l'opérateur chez qui le contrat a été souscrit. Quel que soit le lieu où l'utilisateur se déplace dans le monde (*roaming*), ses données de profil et ses clés d'authentification restent stockées de façon centralisée au « domicile » de son opérateur, au sein du **HSS**.
 
 ## 3.2 Entités de la chaîne de données usager
 
@@ -170,13 +174,13 @@ Ces entités forment le tunnel de transport physique des données utilisateur (*
 
 ### SGW (*Serving Gateway*)
 
-La SGW est le point d'ancrage local pour le terminal.
+La SGW est la passerelle de service qui sert de **relais central pour les données de l'utilisateur** au niveau local :
 
-- **Mobilité locale :** Lors d'un changement d'eNodeB (Handover), la SGW reste le point fixe qui reçoit et redistribue les données, assurant la continuité de la session IP.
+- **Passerelle et relais de données :** Elle reçoit les paquets IP venant du réseau radio (eNodeB) et les achemine vers la passerelle de sortie (PGW), et inversement pour le trafic descendant.
 
-- **Routage :** Elle agit comme un routeur intermédiaire, acheminant les paquets entre le réseau radio (eNodeB) et la passerelle PGW.
+- **Maintien de la connexion en mobilité :** Lorsqu'un utilisateur se déplace et change d'antenne (eNodeB), la SGW reste fixe et modifie la destination interne des paquets. Elle évite ainsi de devoir réinterrompre la session ou d'informer le reste du réseau central à chaque changement de cellule.
 
-- **Mise en cache :** Elle peut temporairement mettre en cache des paquets lorsque le terminal est en mode économie d'énergie (*Idle*).
+- **Gestion du mode veille (*Idle*) :** Si le terminal n'émet plus de données mais reste allumé, la SGW conserve temporairement les paquets entrants et demande à la MME de réveiller le terminal (*paging*) pour lui livrer son trafic.
 
 ### PGW (*PDN Gateway*)
 
@@ -190,16 +194,16 @@ La PGW est le point de sortie du réseau 4G vers le monde extérieur (Internet, 
 
 ## Synthèse des rôles dans l'EPC
 
-| **Entité** | **Plan** | **Fonction principale**                    |
-| ---------- | -------- | ------------------------------------------ |
-| **MME**    | Contrôle | Gestion de la mobilité et signalisation.   |
-| **HSS**    | Contrôle | Base de données des abonnés et sécurité.   |
-| **SGW**    | Usager   | Ancrage local et transfert des données.    |
-| **PGW**    | Usager   | Sortie vers Internet et gestion de la QoS. |
+| **Entité** | **Plan** | **Fonction principale**                                   |
+| ---------- | -------- | --------------------------------------------------------- |
+| **MME**    | Contrôle | Gestion de la mobilité et signalisation.                  |
+| **HSS**    | Contrôle | Base de données des abonnés et sécurité.                  |
+| **SGW**    | Usager   | Relais de données et continuité de connexion en mobilité. |
+| **PGW**    | Usager   | Sortie vers Internet et gestion de la QoS.                |
 
 L'EPC travaille de concert avec l'E-UTRAN grâce à l'interface **S1**. La MME utilise la partie **S1-MME** pour piloter le réseau, tandis que la SGW utilise la partie **S1-U** pour faire circuler les données. Cette architecture robuste permet de supporter des millions d'utilisateurs connectés simultanément avec une latence minimale.
 
-# # Chapitre 4 : Cartographie des interfaces et protocoles du réseau
+# Chapitre 4 : Cartographie des interfaces et protocoles du réseau
 
 Dans une architecture 4G LTE, le bon fonctionnement des entités (eNodeB, MME, HSS, SGW, PGW) repose sur un ensemble d'interfaces standardisées. Ces interfaces s'appuient sur des piles de protocoles spécifiques selon qu'elles appartiennent au **plan de contrôle** (transport de la signalisation) ou au **plan d'usager** (transport des paquets de données IP).
 
@@ -270,7 +274,7 @@ Les interfaces **S5** et **S8** relient la passerelle de service SGW à la passe
 | **S11**       | MME $\leftrightarrow$ SGW       | Contrôle          | GTPv2-C                 | Contrôle et création des porteurs           |
 | **S5 / S8**   | SGW $\leftrightarrow$ PGW       | Contrôle & Usager | GTPv2-C / GTP-U         | Liaison inter-passerelles (Local / Roaming) |
 
-# Chapitre 5 : Analyse des Flux Fonctionnels et Procédures d'Échange
+# Chapitre 5 : Analyse des flux fonctionnels et procédures d'échange
 
 Ce dernier chapitre met en application les entités, interfaces et protocoles étudiés précédemment. Il détaille les deux mécanismes fondamentaux qui régissent le fonctionnement dynamique d'un réseau 4G LTE : la procédure d'attachement initial (*Initial Attach*) et la gestion de la mobilité via le transfert intercellulaire (*Handover*).
 
@@ -353,4 +357,17 @@ Au terme de ces 5 chapitres, l'architecture 4G LTE se distingue par :
 - Un cœur de réseau **EPC exclusivement IP** séparant strictement le plan de contrôle (MME, HSS) du plan d'usager (SGW, PGW).
 
 - Des **interfaces et protocoles standardisés** (S1, X2, S6a, S11, S5/S8) assurant l'interopérabilité, l'authentification sécurisée et une mobilité fluide sans interruption de service.
-- 
+
+---
+
+#### Avertissement
+
+Ce texte s'inspire du chapite #1 du cours *Comprendre la 4G* offert sur la plateforme FunMocc par MinesTelecom . 
+
+Le texte a été rédigé en partie à l'aide d'outils LLM tels que Gemini et Mistral, puis vérifié, corrigé et modifié à la main.
+
+---
+
+
+
+
