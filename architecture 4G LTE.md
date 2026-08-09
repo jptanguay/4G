@@ -194,12 +194,12 @@ La PGW est le point de sortie du réseau 4G vers le monde extérieur (Internet, 
 
 ## Synthèse des rôles dans l'EPC
 
-| **Entité** | **Plan** | **Fonction principale**                                   |
-| ---------- | -------- | --------------------------------------------------------- |
-| **MME**    | Contrôle | Gestion de la mobilité et signalisation.                  |
-| **HSS**    | Contrôle | Base de données des abonnés et sécurité.                  |
-| **SGW**    | Usager   | Relais de données et continuité de connexion en mobilité. |
-| **PGW**    | Usager   | Sortie vers Internet et gestion de la QoS.                |
+| **Entité** | **Nom complet**              | **Plan** | **Fonction principale**                                   |
+| ---------- | ---------------------------- | -------- | --------------------------------------------------------- |
+| **MME**    | *Mobility Management Entity* | Contrôle | Gestion de la mobilité et signalisation.                  |
+| **HSS**    | *Home Subscriber Server*     | Contrôle | Base de données des abonnés et sécurité.                  |
+| **SGW**    | *Serving Gateway*            | Usager   | Relais de données et continuité de connexion en mobilité. |
+| **PGW**    | *PDN Gateway*                | Usager   | Sortie vers Internet et gestion de la QoS.                |
 
 L'EPC travaille de concert avec l'E-UTRAN grâce à l'interface **S1**. La MME utilise la partie **S1-MME** pour piloter le réseau, tandis que la SGW utilise la partie **S1-U** pour faire circuler les données. Cette architecture robuste permet de supporter des millions d'utilisateurs connectés simultanément avec une latence minimale.
 
@@ -221,19 +221,19 @@ Ces interfaces acheminent les messages administratifs pour l'authentification de
 
 ### Interface S6a (MME – HSS)
 
-L'interface **S6a** permet à la MME de communiquer avec le serveur d'abonnés HSS.
-
-- **Protocole utilisé :** **Diameter** (successeur du protocole RADIUS).
-
-- **Rôle :** Elle sert à rapatrier le profil d'abonnement de l'utilisateur, à effectuer l'authentification mutuelle via des vecteurs de sécurité (*Authentication Vectors*), et à notifier le HSS de la localisation actuelle du terminal.
+L'interface **S6a** permet à la MME de communiquer avec le serveur d'abonnés HSS. Elle sert à rapatrier le profil d'abonnement de l'utilisateur, à effectuer l'authentification mutuelle via des vecteurs de sécurité (*Authentication Vectors*), et à notifier le HSS de la localisation actuelle du terminal.
 
 ### Interface S11 (MME – SGW)
 
-L'interface **S11** assure la communication entre la MME et la SGW.
+L'interface **S11** assure la communication entre la MME et la SGW. La MME utilise cette interface pour piloter l'allocation dynamique des **porteurs (*bearers*)** au niveau de la SGW. Un porteur désigne le canal logique de transport caractérisé par un profil de qualité de service (QoS) spécifique (débit, latence, priorité d'acheminement). 
 
-- **Protocole utilisé :** **GTPv2-C** (*GPRS Tunnelling Protocol version 2 - Control Plane*).
+Au fil de la session de l'abonné, la MME transmet des requêtes GTPv2-C à la SGW pour :
 
-- **Rôle :** La MME l'utilise pour ordonner à la SGW de créer, modifier ou supprimer des porteurs (*bearers*). Lors d'un changement de cellule ou d'un attachement, c'est via S11 que le chemin des données utilisateur est configuré.
+- **Créer un porteur :** Instancier un conduit de données dédié lorsqu'un service exige des garanties de QoS particulières (par exemple, un porteur *GBR* à débit garanti pour la VoLTE).
+
+- **Modifier un porteur :** Ajuster à la volée les allocations de ressources ou les règles de priorité (ex. variation du débit accordé ou changement de profil QoS lors d'un changement d'application).
+
+- **Supprimer un porteur :** Libérer les ressources de transport au sein du plan d'usager dès la fermeture d'un flux de données ou la fin d'une session.
 
 ## 4.3 Interfaces de transport de données inter-passerelles : S5 et S8
 
@@ -261,7 +261,7 @@ Les interfaces **S5** et **S8** relient la passerelle de service SGW à la passe
 
 - **Utilisation :** Employée lorsqu'un abonné est en situation d'itinérance (*Roaming*) à l'étranger.
 
-- **Fonctionnement :** La SGW est située dans le réseau visité (VPLMN) tandis que la PGW reste dans le réseau d'origine de l'abonné (HPLMN). L'interface S8 traverse des réseaux d'interconnexion sécurisés (IPX/GRX). Elle garantit que la facturation et les règles de service restent sous le contrôle de l'opérateur d'origine.
+- **Fonctionnement :** La SGW est située dans le réseau visité (**V**PLMN) tandis que la PGW reste dans le réseau d'origine de l'abonné (**H**PLMN). L'interface S8 traverse des réseaux d'interconnexion sécurisés (IPX/GRX). Elle garantit que la facturation et les règles de service restent sous le contrôle de l'opérateur d'origine.
 
 ## Synthèse des interfaces et protocoles
 
