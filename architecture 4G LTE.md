@@ -25,7 +25,8 @@ Ce document est structuré en cinq chapitres progressifs expliquant les fondemen
 Le réseau mobile de quatrième génération (4G LTE, pour *Long Term Evolution*) a été conçu par le 3GPP (*3rd Generation Partnership Project*) pour répondre à la croissance exponentielle du trafic de données mobiles. Contrairement aux générations précédentes (2G et 3G) qui conservaient une structure hybride commutant à la fois des circuits vocaux et des paquets de données, l'architecture 4G repose sur une refonte intégrale orientée exclusivement vers le transport de paquets IP.
 
 <div>
-<img src="./architecture-4g-lte.png"
+<img src="./architecture-4g-lte.png">
+<br><label>Figure 1: E-UTRAN-and-EPC-Architecture</label>
 </div>
 
 ## 1.1 Objectifs et principes clés du réseau LTE/EPC
@@ -381,6 +382,12 @@ L'architecture 4G LTE se distingue par :
 Ce texte s'inspire du chapite #1 du cours ***Comprendre la 4G*** offert sur la plateforme **fun-mooc.fr** par l’**Institut Mines-Télécom**. 
 
 Le texte a été rédigé en partie à l'aide d'outils LLM tels que Gemini et Mistral, puis vérifié, corrigé et modifié à la main.
+
+
+
+#### Crédits:
+
+**Figure 1**, Source: https://www.researchgate.net/figure/E-UTRAN-and-EPC-Architecture_fig2_256873808, [Dr.Ghassan A. Abed](https://www.researchgate.net/profile/Drghassan-Abed?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6Il9kaXJlY3QiLCJwYWdlIjoiX2RpcmVjdCJ9fQ)
 
 ---
 
