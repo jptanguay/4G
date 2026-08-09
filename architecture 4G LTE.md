@@ -100,6 +100,12 @@ L'eNodeB remplit des fonctions complexes réparties entre le plan d'usager et le
 
 - **Sélection et routage :** choix de la MME (*Mobility Management Entity*) lors de l'attachement initial du terminal et routage des paquets d'usager vers la passerelle SGW (*Serving Gateway*).
 
+> **Le protocole de contrôle radio : RRC (*Radio Resource Control*)**
+> 
+> Au niveau de la liaison radio (entre le terminal UE et l'eNodeB), la signalisation est prise en charge par le protocole **RRC**. Ce protocole établit, maintient et libère la connexion radio. Il sert également d'« enveloppe » (*transport de NAS*) pour véhiculer de façon sécurisée les messages administratifs que le terminal adresse directement au cœur de réseau (MME) avant même que la connexion de données ne soit complètement établie.
+
+
+
 ### Autonomie de l'eNodeB par rapport aux générations précédentes
 
 L'absence de RNC (*Radio Network Controller*) dans l'architecture 4G confère une autonomie décisionnelle importante à l'eNodeB. Ce choix architectural présente plusieurs avantages majeurs :
@@ -282,15 +288,23 @@ Ce dernier chapitre met en application les entités, interfaces et protocoles é
 
 Lorsqu'un terminal mobile (UE) s'allume ou entre dans un réseau 4G, il doit s'enregistrer auprès du cœur de réseau EPC. Cette procédure établit l'identité de l'abonné, valide ses droits d'accès et met en place un canal de communication permanent appelé **porteur par défaut** (*Default Bearer*).
 
-**1.Demande d'attachement et sélection de la MME :**Du terminal vers le cœur de réseau via l'eNodeB.
+**1. Demande d'attachement et sélection de la MME :** 
 
-L'UE envoie un message `Attach Request` encapsulé dans de la signalisation RRC vers l'eNodeB. L'eNodeB sélectionne une MME disponible et lui transmet le message via l'interface **S1-MME** (protocole **S1-AP**).
+*Du terminal vers le cœur de réseau via l'eNodeB.*
 
-**2.Authentification et mise à jour de localisation :**Échanges MME - HSS.
+L'UE transmet un message `Attach Request` à l'eNodeB. Comme le terminal n'a pas encore de canal de données actif, ce message de signalisation est encapsulé dans une trame radio **RRC** (*Radio Resource Control*).
+
+À la réception, l'eNodeB extrait la demande, sélectionne une MME disponible dans le cœur de réseau et lui retransmet le message via l'interface **S1-MME** (en l'encapsulant cette fois dans le protocole **S1-AP**).
+
+**2. Authentification et mise à jour de localisation :** 
+
+*Échanges MME - HSS.*
 
 La MME interroge le HSS via l'interface **S6a** (protocole **Diameter**) pour obtenir les vecteurs de sécurité et authentifier le terminal. Une fois l'UE authentifié, la MME met à jour sa localisation dans le HSS et rapatrie le profil de l'abonné.
 
-**3.Création de la session et allocation IP :**Échanges MME - SGW - PGW.
+**3. Création de la session et allocation IP :** 
+
+*Échanges MME - SGW - PGW.*
 
 - La MME envoie une requête `Create Session Request` à la SGW via l'interface **S11** (protocole **GTPv2-C**).
 
@@ -298,7 +312,9 @@ La MME interroge le HSS via l'interface **S6a** (protocole **Diameter**) pour ob
 
 - La PGW attribue une **adresse IP** au terminal, définit les paramètres de qualité de service (QoS) et retourne une réponse `Create Session Response` contenant les identifiants de tunnels GTP (TEID).
 
-**4.Activation du porteur et configuration radio :**Finalisation du porteur par défaut.
+**4. Activation du porteur et configuration radio :** 
+
+*Finalisation du porteur par défaut.*
 
 La MME ordonne à l'eNodeB de configurer la liaison radio avec l'UE (`Initial Context Setup Request`). L'eNodeB établit la connexion radio sécurisée avec le terminal et confirme le réglage à la MME.
 
@@ -348,9 +364,9 @@ Lorsque l'interface X2 n'est pas déployée entre deux stations de base, ou si l
 
 - **Inconvénients :** Cette procédure génère un volume de signalisation plus important dans le cœur de réseau et introduit une latence légèrement supérieure à celle du Handover X2. Elle garantit toutefois une continuité de service absolue sur l'ensemble de la couverture réseau.
 
-## Synthèse globale du cours
+## 6. Synthèse (*Takeways*)
 
-Au terme de ces 5 chapitres, l'architecture 4G LTE se distingue par :
+L'architecture 4G LTE se distingue par :
 
 - Une architecture **plate et simplifiée** (E-UTRAN) centrée sur l'eNodeB pour réduire la latence radio.
 
@@ -362,7 +378,7 @@ Au terme de ces 5 chapitres, l'architecture 4G LTE se distingue par :
 
 #### Avertissement
 
-Ce texte s'inspire du chapite #1 du cours *Comprendre la 4G* offert sur la plateforme FunMocc par MinesTelecom . 
+Ce texte s'inspire du chapite #1 du cours ***Comprendre la 4G*** offert sur la plateforme **fun-mooc.fr** par l’**Institut Mines-Télécom**. 
 
 Le texte a été rédigé en partie à l'aide d'outils LLM tels que Gemini et Mistral, puis vérifié, corrigé et modifié à la main.
 
