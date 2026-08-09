@@ -1,5 +1,7 @@
 # Architecture et protocoles des réseaux 4G LTE : du réseau d'accès au cœur EPC
 
+---
+
 # Introduction
 
 L'avènement de la 4G a marqué un tournant majeur dans l'histoire des télécommunications. Contrairement aux réseaux 2G et 3G qui séparaient le traitement de la voix et des données, la 4G repose sur une architecture entièrement basée sur le protocole IP (*All-IP Network*). Conçue pour offrir des débits élevés et une très faible latence, cette technologie s'appuie sur une structure simplifiée et distribuée.
@@ -18,7 +20,7 @@ Ce document est structuré en cinq chapitres progressifs expliquant les fondemen
 
 5. **Analyse des flux fonctionnels :** Déroulement concret des procédures d'attachement initial et de transfert intercellulaire (*Handover*).
 
-
+---
 
 # Chapitre 1 : Introduction et vue d'ensemble de l'architecture 4G LTE
 
@@ -81,6 +83,8 @@ L'EPC s'articule principalement autour de deux axes :
 
 L'interface standardisée **S1** assure le point de jonction entre l'E-UTRAN et l'EPC, se décomposant en **S1-MME** pour la signalisation et **S1-U** pour le transport des données usager.
 
+---
+
 # Chapitre 2 : Le réseau d'accès radio (E-UTRAN)
 
 Le réseau d'accès radio E-UTRAN (*Evolved Universal Terrestrial Radio Access Network*) constitue l'interface intermédiaire entre l'équipement utilisateur (UE, *User Equipment*) et le cœur de réseau EPC. Dans la norme 4G LTE, l'architecture d'accès a été considérablement simplifiée par rapport aux générations précédentes afin de réduire les temps de latence et de rationaliser la gestion des ressources radio.
@@ -140,6 +144,8 @@ Lorsqu'un terminal en communication se déplace de la zone de couverture d'un eN
 ### Coordination des interférences
 
 L'interface X2 est également mise à profit pour échanger des indicateurs d'interférence intercellulaire (tels que l'ICIC, *Inter-Cell Interference Coordination*). Les eNodeB voisins ajustent ainsi mutuellement leurs puissances d'émission et leurs grilles d'allocation de fréquences sur les bordures de cellules.
+
+---
 
 # Chapitre 3 : Le cœur de réseau EPC (*Evolved Packet Core*)
 
@@ -209,6 +215,8 @@ La PGW est le point de sortie du réseau 4G vers le monde extérieur (Internet, 
 | **PGW**    | *PDN Gateway*                | Usager   | Sortie vers Internet et gestion de la QoS.                |
 
 L'EPC travaille de concert avec l'E-UTRAN grâce à l'interface **S1**. La MME utilise la partie **S1-MME** pour piloter le réseau, tandis que la SGW utilise la partie **S1-U** pour faire circuler les données. Cette architecture robuste permet de supporter des millions d'utilisateurs connectés simultanément avec une latence minimale.
+
+---
 
 # Chapitre 4 : Cartographie des interfaces et protocoles du réseau
 
@@ -280,6 +288,8 @@ Les interfaces **S5** et **S8** relient la passerelle de service SGW à la passe
 | **S6a**       | MME $\leftrightarrow$ HSS       | Contrôle          | Diameter                | Authentification et profils d'abonnés       |
 | **S11**       | MME $\leftrightarrow$ SGW       | Contrôle          | GTPv2-C                 | Contrôle et création des porteurs           |
 | **S5 / S8**   | SGW $\leftrightarrow$ PGW       | Contrôle & Usager | GTPv2-C / GTP-U         | Liaison inter-passerelles (Local / Roaming) |
+
+---
 
 # Chapitre 5 : Analyse des flux fonctionnels et procédures d'échange
 
@@ -365,7 +375,9 @@ Lorsque l'interface X2 n'est pas déployée entre deux stations de base, ou si l
 
 - **Inconvénients :** Cette procédure génère un volume de signalisation plus important dans le cœur de réseau et introduit une latence légèrement supérieure à celle du Handover X2. Elle garantit toutefois une continuité de service absolue sur l'ensemble de la couverture réseau.
 
-## 6. Synthèse (*Takeways*)
+---
+
+# 6. Synthèse (*Takeways*)
 
 L'architecture 4G LTE se distingue par :
 
@@ -377,15 +389,15 @@ L'architecture 4G LTE se distingue par :
 
 ---
 
-#### Avertissement
+# Avertissement
 
 Ce texte s'inspire du chapite #1 du cours ***Comprendre la 4G*** offert sur la plateforme **fun-mooc.fr** par l’**Institut Mines-Télécom**. 
 
 Le texte a été rédigé en partie à l'aide d'outils LLM tels que Gemini et Mistral, puis vérifié, corrigé et modifié à la main.
 
+---
 
-
-#### Crédits:
+# Crédits:
 
 **Figure 1**, Source: https://www.researchgate.net/figure/E-UTRAN-and-EPC-Architecture_fig2_256873808, [Dr.Ghassan A. Abed](https://www.researchgate.net/profile/Drghassan-Abed?_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6Il9kaXJlY3QiLCJwYWdlIjoiX2RpcmVjdCJ9fQ)
 
